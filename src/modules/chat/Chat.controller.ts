@@ -36,7 +36,6 @@ export class ChatController {
   postWebhook(@Req() req: Request, @Res() res: Response) {
     // Parse the request body from the POST
     let body = req.body;
-    console.log('abc');
 
     // Check the webhook event is from a Page subscription
     if (body.object === 'page') {
