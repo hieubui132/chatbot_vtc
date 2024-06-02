@@ -7,16 +7,16 @@ import { AxiosError } from 'axios';
 export class ChatService {
   constructor(private readonly httpService: HttpService) {}
 
-  onModuleInit() {
-    this.startInterval();
-  }
+  // onModuleInit() {
+  //   this.startInterval();
+  // }
 
-  private startInterval() {
-    setInterval(() => {
-      this.getPSID();
-    }, 20000); // 20000ms = 20s
-  }
-  async getPSID() {
-    console.log('count');
-  }
+  // private startInterval() {
+  //   setInterval(() => {
+  //     this.getPSID();
+  //   }, 20000); // 20000ms = 20s
+  // }
+  // async getPSID() {
+  //   console.log('count');
+  // }
 }
