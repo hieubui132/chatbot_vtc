@@ -36,23 +36,25 @@ export class ChatController {
   postWebhook(@Req() req: Request, @Res() res: Response) {
     // Parse the request body from the POST
     let body = req.body;
-    console.log('abc');
 
+    console.log(`\u{1F7EA} Received webhook:`);
+    console.dir(body, { depth: null });
     // Check the webhook event is from a Page subscription
     if (body.object === 'page') {
       // Iterate over each entry - there may be multiple if batched
-      body.entry.forEach(function (entry: any) {
-        // Get the webhook event. entry.messaging is an array, but
-        // will only ever contain one event, so we get index 0
-        let webhook_event = entry.messaging[0];
-        console.log(webhook_event);
+      // body.entry.forEach(function (entry: any) {
+      //   // Get the webhook event. entry.messaging is an array, but
+      //   // will only ever contain one event, so we get index 0
+      //   let webhook_event = entry.messaging[0];
+      //   console.log(webhook_event);
 
-        // Get the sender PSID
-        let sender_psid = webhook_event.sender.id;
-        console.log('Sender PSID: ' + sender_psid);
-      });
+      //   // Get the sender PSID
+      //   let sender_psid = webhook_event.sender.id;
+      //   console.log('Sender PSID: ' + sender_psid);
+      // });
 
       // Return a '200 OK' response to all events
+      console.log('EVENT_RECEIVED');
       res.status(200).send('EVENT_RECEIVED');
     } else {
       // Return a '404 Not Found' if event is not from a page subscription

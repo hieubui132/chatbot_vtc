@@ -7,10 +7,6 @@ import { AxiosError } from 'axios';
 export class ChatService {
   constructor(private readonly httpService: HttpService) {}
 
-  getHello(): string {
-    return 'Hello Chatbot By Hieubc';
-  }
-
   // async findAll() {
   //   const { data } = await firstValueFrom(
   //     this.httpService
