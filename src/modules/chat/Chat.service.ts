@@ -21,7 +21,13 @@ export class ChatService {
           }),
         ),
     );
-    console.log(data);
-    return data;
+    this.processData(data);
+  }
+
+  // Hàm xử lý dữ liệu
+  async processData(data: any) {
+    // Thực hiện logic của bạn tại đây
+    console.log(data); // ví dụ, in dữ liệu ra console
+    // Hãy thay thế phần trên bằng mã của bạn để xử lý dữ liệu
   }
 }
