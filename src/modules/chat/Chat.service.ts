@@ -21,6 +21,7 @@ export class ChatService {
           }),
         ),
     );
+    console.log(data);
     return data;
   }
 }
