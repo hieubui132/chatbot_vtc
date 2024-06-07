@@ -25,7 +25,7 @@ export class ChatService {
   }
 
   // Hàm xử lý dữ liệu
-  processData(data: any) {
+  async processData(data: any) {
     // Thực hiện logic của bạn tại đây
     console.log(data); // ví dụ, in dữ liệu ra console
     // Hãy thay thế phần trên bằng mã của bạn để xử lý dữ liệu
