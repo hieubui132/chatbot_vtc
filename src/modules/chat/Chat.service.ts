@@ -8,11 +8,6 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 export class ChatService {
   constructor(private readonly httpService: HttpService) {}
 
-  async test() {
-    const res = await this.getMessage();
-    console.log(res);
-  }
-
   @Cron(CronExpression.EVERY_30_SECONDS)
   async getMessage() {
     const { data } = await firstValueFrom(
