@@ -10,10 +10,11 @@ export class ChatService {
 
   @Cron(CronExpression.EVERY_30_SECONDS)
   async getMessage() {
+    const envVariables = process.env;
     const { data } = await firstValueFrom(
       this.httpService
         .get(
-          'https://graph.facebook.com/v20.0/327329587129436/conversations?platform=messenger&access_token=EAAN7jP8sNV8BO7zthJuN4YeNEa44Eis9kihvrNT9xHMLw1Dk5KZCZAGKU28KE90Wh9bLf6p0J1hq5Vspli6NhCioAzX7RzMgrg3FC3tUoXc8CvhehDmkPPgerRMLeQjh26526V9TeIPHdwhghKmts2qt0yiJNp5cS2Et5fDuaSG9iC0ZAEad0H9h8MNy0sbDwZDZD',
+          `https://graph.facebook.com/v20.0/${envVariables.PAGE_ID}/conversations?platform=messenger&access_token=${envVariables.PAGE_ACCESS_TOKEN}`,
         )
         .pipe(
           catchError((error: AxiosError) => {
@@ -25,7 +26,7 @@ export class ChatService {
   }
 
   // Hàm xử lý dữ liệu
-  async processData(data: any) {
+  processData(data: any) {
     // Thực hiện logic của bạn tại đây
     console.log(data); // ví dụ, in dữ liệu ra console
     // Hãy thay thế phần trên bằng mã của bạn để xử lý dữ liệu
