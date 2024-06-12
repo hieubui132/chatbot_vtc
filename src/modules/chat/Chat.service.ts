@@ -88,21 +88,20 @@ export class ChatService {
         // Send the HTTP request to the Messenger Platform
         try {
             const response = await firstValueFrom(
-                this.httpService
-                    .post(url, requestBody, {
-                        params: { access_token: PAGE_ACCESS_TOKEN },
-                    })
-                    .pipe(
-                        catchError((error) => {
-                            console.error('Unable to send message:', error);
-                            throw new Error(error);
-                        }),
-                    ),
+                this.httpService.post(url, requestBody, {
+                    params: { access_token: PAGE_ACCESS_TOKEN },
+                }),
+                // .pipe(
+                //     catchError((error) => {
+                //         console.error('Unable to send message:', error);
+                //         throw new Error(error);
+                //     }),
+                // ),
             );
 
             console.log('Message sent!');
         } catch (error) {
-            console.error('Unable to send message:', error);
+            console.error('Unable to send message');
         }
     }
 }
