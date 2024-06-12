@@ -54,7 +54,7 @@ export class ChatService {
     }
 
     // Handles messaging_postbacks events
-    handlePostback(senderPsid: any, receivedPostback: any) {
+    async handlePostback(senderPsid: any, receivedPostback: any) {
         let response: any;
 
         // Get the payload for the postback
@@ -67,7 +67,7 @@ export class ChatService {
             response = { text: 'Oops, try sending another image.' };
         } else if (payload === 'STARTED') {
             // response = { text: 'Chào mừng bạn đến với hỗ trợ ôn thi' };
-            const res = this.handleGetStarted(senderPsid);
+            const res = await this.handleGetStarted(senderPsid);
             response = { text: `Chào mừng ${res} bạn đến với hỗ trợ ôn thi` };
         }
         // Send the message to acknowledge the postback
