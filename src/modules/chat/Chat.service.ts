@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ChatService {
-    constructor(private readonly httpService: HttpService) {}
+    constructor(
+        private readonly httpService: HttpService,
+        private readonly logger = new Logger(ChatService.name),
+    ) {}
 
     // Handles messages events
     handleMessage(senderPsid: any, receivedMessage: any) {
@@ -68,7 +71,7 @@ export class ChatService {
         } else if (payload === 'STARTED') {
             // response = { text: 'Chào mừng bạn đến với hỗ trợ ôn thi' };
             const res = await this.handleGetStarted(senderPsid);
-            response = { text: `Chào mừng ${senderPsid} bạn đến với hỗ trợ ôn thi` };
+            response = { text: `Chào mừng bạn đến với hỗ trợ ôn thi` };
         }
         // Send the message to acknowledge the postback
         this.callSendAPI(senderPsid, response);
@@ -91,20 +94,18 @@ export class ChatService {
         // Send the HTTP request to the Messenger Platform
         try {
             const response = await firstValueFrom(
-                this.httpService
-                    .post(url, requestBody, {
-                        params: { access_token: PAGE_ACCESS_TOKEN },
-                    })
-                    .pipe(
-                        catchError((error) => {
-                            console.error('Unable to send message:', error);
-                            throw new Error(error);
-                        }),
-                    ),
+                this.httpService.post(url, requestBody, {
+                    params: { access_token: PAGE_ACCESS_TOKEN },
+                }),
+                // .pipe(
+                //     catchError((error) => {
+                //         console.error('Unable to send message:', error);
+                //         throw new Error(error);
+                //     }),
+                // ),
             );
-            console.log('Message sent!', response.data);
         } catch (error) {
-            console.error('Unable to send message', error);
+            // console.error('Unable to send message', error);
         }
     }
 
@@ -114,15 +115,16 @@ export class ChatService {
         // Send the HTTP request to the Messenger Platform
         try {
             const response = await firstValueFrom(
-                this.httpService.get(url).pipe(
-                    catchError((error) => {
-                        throw new Error(error);
-                    }),
-                ),
+                this.httpService.get(url),
+                // .pipe(
+                //     catchError((error) => {
+                //         throw new Error(error);
+                //     }),
+                // ),
             );
-            return response.data;
+            this.logger.log(response.data);
         } catch (error) {
-            console.error('Unable to send message', error);
+            // console.error('Unable to send message', error);
         }
     }
 }
