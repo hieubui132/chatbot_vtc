@@ -1,13 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ChatService {
-    constructor(
-        private readonly httpService: HttpService,
-        private readonly logger = new Logger(ChatService.name),
-    ) {}
+    constructor(private readonly httpService: HttpService) {}
 
     // Handles messages events
     handleMessage(senderPsid: any, receivedMessage: any) {
@@ -71,6 +68,7 @@ export class ChatService {
         } else if (payload === 'STARTED') {
             // response = { text: 'Chào mừng bạn đến với hỗ trợ ôn thi' };
             const res = await this.handleGetStarted(senderPsid);
+
             response = { text: `Chào mừng ${senderPsid} bạn đến với hỗ trợ ôn thi` };
         }
         // Send the message to acknowledge the postback
@@ -105,7 +103,7 @@ export class ChatService {
                         }),
                     ),
             );
-            this.logger.log(response.data);
+            console.log('Message sent!', response.data);
         } catch (error) {
             console.error('Unable to send message', error);
         }
