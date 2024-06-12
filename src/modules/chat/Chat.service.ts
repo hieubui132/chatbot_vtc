@@ -10,6 +10,8 @@ export class ChatService {
     handleMessage(senderPsid: any, receivedMessage: any) {
         let response: any;
         // Checks if the message contains text
+        console.log(receivedMessage);
+
         if (receivedMessage.text) {
             // Create the payload for a basic text message, which
             // will be added to the body of your request to the Send API

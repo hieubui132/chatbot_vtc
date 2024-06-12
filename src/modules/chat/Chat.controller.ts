@@ -22,7 +22,7 @@ export class ChatController {
             // Checks the mode and token sent is correct
             if (mode === 'subscribe' && token === VERIFY_TOKEN) {
                 // Responds with the challenge token from the request
-                console.log('WEBHOOK_VERIFIED');
+                // console.log('WEBHOOK_VERIFIED');
                 res.status(200).send(challenge);
             } else {
                 // Responds with '403 Forbidden' if verify tokens do not match
@@ -48,7 +48,7 @@ export class ChatController {
 
                 // Get the sender PSID
                 let sender_psid = webhook_event.sender.id;
-                console.log('Sender PSID: ' + sender_psid);
+                // console.log('Sender PSID: ' + sender_psid);
 
                 // Check if the event is a message or postback and
                 // pass the event to the appropriate handler function
