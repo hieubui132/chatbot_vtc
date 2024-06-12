@@ -68,7 +68,7 @@ export class ChatService {
         } else if (payload === 'STARTED') {
             // response = { text: 'Chào mừng bạn đến với hỗ trợ ôn thi' };
             const res = await this.handleGetStarted(senderPsid);
-            response = { text: `Chào mừng ${res} bạn đến với hỗ trợ ôn thi` };
+            response = { text: `Chào mừng ${res.data.name} bạn đến với hỗ trợ ôn thi` };
         }
         // Send the message to acknowledge the postback
         this.callSendAPI(senderPsid, response);
@@ -120,7 +120,7 @@ export class ChatService {
                     }),
                 ),
             );
-            return response.data.name;
+            return response;
         } catch (error) {
             console.error('Unable to send message', error);
         }
