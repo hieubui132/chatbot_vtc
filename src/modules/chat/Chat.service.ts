@@ -66,7 +66,9 @@ export class ChatService {
         } else if (payload === 'no') {
             response = { text: 'Oops, try sending another image.' };
         } else if (payload === 'STARTED') {
-            response = { text: 'Chào mừng bạn đến với hỗ trợ ôn thi' };
+            // response = { text: 'Chào mừng bạn đến với hỗ trợ ôn thi' };
+            const res = this.handleGetStarted(senderPsid);
+            response = { text: `Chào mừng ${res} bạn đến với hỗ trợ ôn thi` };
         }
         // Send the message to acknowledge the postback
         this.callSendAPI(senderPsid, response);
@@ -89,20 +91,38 @@ export class ChatService {
         // Send the HTTP request to the Messenger Platform
         try {
             const response = await firstValueFrom(
-                this.httpService.post(url, requestBody, {
-                    params: { access_token: PAGE_ACCESS_TOKEN },
-                }),
-                // .pipe(
-                //     catchError((error) => {
-                //         console.error('Unable to send message:', error);
-                //         throw new Error(error);
-                //     }),
-                // ),
+                this.httpService
+                    .post(url, requestBody, {
+                        params: { access_token: PAGE_ACCESS_TOKEN },
+                    })
+                    .pipe(
+                        catchError((error) => {
+                            console.error('Unable to send message:', error);
+                            throw new Error(error);
+                        }),
+                    ),
             );
-
-            console.log('Message sent!');
+            console.log('Message sent!', response.data);
         } catch (error) {
-            console.error('Unable to send message');
+            console.error('Unable to send message', error);
+        }
+    }
+
+    async handleGetStarted(senderPsid: any) {
+        const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+        const url = `${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`;
+        // Send the HTTP request to the Messenger Platform
+        try {
+            const response = await firstValueFrom(
+                this.httpService.get(url).pipe(
+                    catchError((error) => {
+                        throw new Error(error);
+                    }),
+                ),
+            );
+            return response.data.name;
+        } catch (error) {
+            console.error('Unable to send message', error);
         }
     }
 }
