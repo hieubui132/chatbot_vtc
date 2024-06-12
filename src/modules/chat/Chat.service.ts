@@ -10,7 +10,6 @@ export class ChatService {
     handleMessage(senderPsid: any, receivedMessage: any) {
         let response: any;
         // Checks if the message contains text
-        console.log(receivedMessage);
 
         if (receivedMessage.text) {
             // Create the payload for a basic text message, which
@@ -66,6 +65,8 @@ export class ChatService {
             response = { text: 'Thanks!' };
         } else if (payload === 'no') {
             response = { text: 'Oops, try sending another image.' };
+        } else if (payload === 'STARTED') {
+            response = { text: 'Chào mừng bạn đến với hỗ trợ ôn thi' };
         }
         // Send the message to acknowledge the postback
         this.callSendAPI(senderPsid, response);
