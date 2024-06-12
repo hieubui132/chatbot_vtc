@@ -100,7 +100,7 @@ export class ChatService {
                     ),
             );
 
-            console.log('Message sent!', response.data);
+            console.log('Message sent!');
         } catch (error) {
             console.error('Unable to send message:', error);
         }
