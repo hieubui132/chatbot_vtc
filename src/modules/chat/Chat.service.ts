@@ -69,7 +69,7 @@ export class ChatService {
             // response = { text: 'Chào mừng bạn đến với hỗ trợ ôn thi' };
             const res = await this.handleGetStarted(senderPsid);
 
-            response = { text: `Chào mừng ${senderPsid} bạn đến với hỗ trợ ôn thi` };
+            response = { text: `Chào mừng ${res.name} bạn đến với hỗ trợ ôn thi` };
         }
         // Send the message to acknowledge the postback
         this.callSendAPI(senderPsid, response);
@@ -111,7 +111,7 @@ export class ChatService {
 
     async handleGetStarted(senderPsid: any) {
         const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-        const url = `${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`;
+        const url = `https://graph.facebook.com/${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`;
         // Send the HTTP request to the Messenger Platform
         try {
             const response = await firstValueFrom(
