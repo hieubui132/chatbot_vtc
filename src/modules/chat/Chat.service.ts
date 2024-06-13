@@ -64,7 +64,7 @@ export class ChatService {
         // Set the response based on the postback payload
         if (payload === 'STARTED') {
             let username = await this.getNameUser(senderPsid);
-            response = { text: `Chào ${username}` };
+            response = { text: `Chào ${username.name}` };
         }
         // Send the message to acknowledge the postback
         this.callSendAPI(senderPsid, response);
