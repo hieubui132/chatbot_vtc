@@ -64,10 +64,12 @@ export class ChatService {
         // Set the response based on the postback payload
         if (payload === 'STARTED') {
             let username = await this.getNameUser(senderPsid);
-            response = { text: `Chào ${username.name}` };
+            response = { text: `Chào ${username.name}. Bạn cần sử dụng dịch vụ nào của chúng tôi?` };
+
+            // Send the message to acknowledge the postback
+            await this.callSendAPI(senderPsid, response);
+            await this.sendMenuService(senderPsid);
         }
-        // Send the message to acknowledge the postback
-        this.callSendAPI(senderPsid, response);
     }
 
     // Sends response messages via the Send API
@@ -90,12 +92,6 @@ export class ChatService {
                 this.httpService.post(url, requestBody, {
                     params: { access_token: PAGE_ACCESS_TOKEN },
                 }),
-                // .pipe(
-                //     catchError((error) => {
-                //         console.error('Unable to send message:', error);
-                //         throw new Error(error);
-                //     }),
-                // ),
             );
             console.log('Message sent!');
         } catch (error) {
@@ -116,5 +112,83 @@ export class ChatService {
             ),
         );
         return data;
+    }
+
+    async sendMenuService(senderPsid: any) {
+        const response = {
+            attachment: {
+                type: 'template',
+                payload: {
+                    template_type: 'generic',
+                    elements: [
+                        {
+                            title: 'Hỗ trợ học tập',
+                            subtitle: '',
+                            image_url: 'https://cantho-school.fpt.edu.vn/wp-content/uploads/hoc-tap-hieu-qua-la-gi.jpg',
+                            buttons: [
+                                {
+                                    type: 'postback',
+                                    title: 'Hỗ trợ học tập',
+                                    payload: '1',
+                                },
+                            ],
+                        },
+                        {
+                            title: 'Chat với admin',
+                            subtitle: '',
+                            image_url:
+                                'https://png.pngtree.com/png-clipart/20230409/original/pngtree-admin-and-customer-service-job-vacancies-png-image_9041264.png',
+                            buttons: [
+                                {
+                                    type: 'postback',
+                                    title: 'Chat với admin',
+                                    payload: '2',
+                                },
+                            ],
+                        },
+                        {
+                            title: 'Hỗ trợ pass tiếng Anh + đầu ra',
+                            subtitle: '',
+                            image_url:
+                                'https://ngoaingucongnghe.edu.vn/upload/images/khoa-ngon-ngu-anh/english-british-england-language-education-concept-min-scaled.jpg',
+                            buttons: [
+                                {
+                                    type: 'postback',
+                                    title: 'Tiếng Anh',
+                                    payload: '3',
+                                },
+                            ],
+                        },
+                        {
+                            title: 'Thực tập',
+                            subtitle: '',
+                            image_url:
+                                'https://talentbold.com/uptalent/attachments/images/20220620/104614386_thuc-tap-sinh-la-gi-1.jpg',
+                            buttons: [
+                                {
+                                    type: 'postback',
+                                    title: 'Thực tập',
+                                    payload: '4',
+                                },
+                            ],
+                        },
+                        {
+                            title: 'Vay tiền nhanh',
+                            subtitle: '',
+                            image_url:
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW9TRQ-c25e3-apdtVWAzoQ-HMkT5iiy3bKw&s',
+                            buttons: [
+                                {
+                                    type: 'postback',
+                                    title: 'vay tiền nhanh',
+                                    payload: '5',
+                                },
+                            ],
+                        },
+                    ],
+                },
+            },
+        };
+        this.callSendAPI(senderPsid, response);
     }
 }
