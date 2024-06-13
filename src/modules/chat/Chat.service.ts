@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom } from 'rxjs';
+import { AxiosError } from 'axios';
 
 @Injectable()
 export class ChatService {
@@ -54,19 +55,16 @@ export class ChatService {
     }
 
     // Handles messaging_postbacks events
-    handlePostback(senderPsid: any, receivedPostback: any) {
+    async handlePostback(senderPsid: any, receivedPostback: any) {
         let response: any;
 
         // Get the payload for the postback
         let payload = receivedPostback.payload;
 
         // Set the response based on the postback payload
-        if (payload === 'yes') {
-            response = { text: 'Thanks!' };
-        } else if (payload === 'no') {
-            response = { text: 'Oops, try sending another image.' };
-        } else if (payload === 'STARTED') {
-            response = { text: `Chào mừng bạn đến với hỗ trợ ôn thi` };
+        if (payload === 'STARTED') {
+            let username = await this.getNameUser(senderPsid);
+            response = { text: `Chào ${username}` };
         }
         // Send the message to acknowledge the postback
         this.callSendAPI(senderPsid, response);
@@ -89,38 +87,34 @@ export class ChatService {
         // Send the HTTP request to the Messenger Platform
         try {
             const response = await firstValueFrom(
-                this.httpService
-                    .post(url, requestBody, {
-                        params: { access_token: PAGE_ACCESS_TOKEN },
-                    })
-                    .pipe(
-                        catchError((error) => {
-                            console.error('Unable to send message:', error);
-                            throw new Error(error);
-                        }),
-                    ),
+                this.httpService.post(url, requestBody, {
+                    params: { access_token: PAGE_ACCESS_TOKEN },
+                }),
+                // .pipe(
+                //     catchError((error) => {
+                //         console.error('Unable to send message:', error);
+                //         throw new Error(error);
+                //     }),
+                // ),
             );
-            console.log('Message sent!', response.data);
+            console.log('Message sent!');
         } catch (error) {
-            console.error('Unable to send message', error);
+            console.error('Unable to send message');
         }
     }
 
-    // async handleGetStarted(senderPsid: any) {
-    //     const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-    //     const url = `https://graph.facebook.com/${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`;
-    //     // Send the HTTP request to the Messenger Platform
-    //     try {
-    //         const response = await firstValueFrom(
-    //             this.httpService.get(url).pipe(
-    //                 catchError((error) => {
-    //                     throw new Error(error);
-    //                 }),
-    //             ),
-    //         );
-    //         return response.data;
-    //     } catch (error) {
-    //         console.error('Unable to send message', error);
-    //     }
-    // }
+    async getNameUser(senderPsid: any) {
+        const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+        const url = `https://graph.facebook.com/${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`;
+        // Send the HTTP request to the Messenger Platform
+        const { data } = await firstValueFrom(
+            this.httpService.get(url).pipe(
+                catchError((error: AxiosError) => {
+                    console.error(error);
+                    throw 'An error happened!';
+                }),
+            ),
+        );
+        return data;
+    }
 }
