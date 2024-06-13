@@ -205,17 +205,7 @@ export class ChatService {
             { id: 7, ten: 'Địa lý' },
             { id: 8, ten: 'Tiếng Anh' },
             { id: 9, ten: 'Giáo dục công dân' },
-            // { id: 10, ten: 'Công nghệ' },
-            // { id: 11, ten: 'Tin học' },
-            // { id: 12, ten: 'Giáo dục thể chất' },
-            // { id: 13, ten: 'Nghệ thuật' },
-            // { id: 14, ten: 'Âm nhạc' },
-            // { id: 15, ten: 'Kỹ năng sống' },
-            // { id: 16, ten: 'Tiếng Pháp' },
-            // { id: 17, ten: 'Tiếng Đức' },
-            // { id: 18, ten: 'Tiếng Nhật' },
-            // { id: 19, ten: 'Tiếng Hàn' },
-            // { id: 20, ten: 'Tiếng Trung' },
+            { id: 10, ten: 'Công nghệ' },
         ];
         const elements = [...subjects].map((item) => {
             return {
@@ -236,7 +226,50 @@ export class ChatService {
                 type: 'template',
                 payload: {
                     template_type: 'generic',
-                    elements: elements,
+                    elements: [
+                        {
+                            title: 'Chọn môn',
+                            subtitle: '',
+                            image_url: '',
+                            buttons: [
+                                {
+                                    type: 'postback',
+                                    title: 'A',
+                                    payload: 'A',
+                                },
+                                {
+                                    type: 'postback',
+                                    title: 'B',
+                                    payload: 'A',
+                                },
+                                {
+                                    type: 'postback',
+                                    title: 'C',
+                                    payload: 'A',
+                                },
+                                {
+                                    type: 'postback',
+                                    title: 'D',
+                                    payload: 'A',
+                                },
+                                {
+                                    type: 'postback',
+                                    title: 'E',
+                                    payload: 'A',
+                                },
+                                {
+                                    type: 'postback',
+                                    title: 'F',
+                                    payload: 'A',
+                                },
+                                {
+                                    type: 'postback',
+                                    title: 'A',
+                                    payload: 'A',
+                                },
+                            ],
+                        },
+                    ],
                 },
             },
         };
