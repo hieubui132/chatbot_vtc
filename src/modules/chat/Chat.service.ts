@@ -69,6 +69,8 @@ export class ChatService {
             // Send the message to acknowledge the postback
             await this.callSendAPI(senderPsid, response);
             await this.sendMenuService(senderPsid);
+        } else if (payload === '1') {
+            await this.sendSubjectList(senderPsid);
         }
     }
 
@@ -180,12 +182,61 @@ export class ChatService {
                             buttons: [
                                 {
                                     type: 'postback',
-                                    title: 'vay tiền nhanh',
+                                    title: 'Vay tiền nhanh',
                                     payload: '5',
                                 },
                             ],
                         },
                     ],
+                },
+            },
+        };
+        this.callSendAPI(senderPsid, response);
+    }
+
+    async sendSubjectList(senderPsid: any) {
+        const subjects = [
+            { id: 1, ten: 'Toán học' },
+            { id: 2, ten: 'Vật lý' },
+            { id: 3, ten: 'Hóa học' },
+            { id: 4, ten: 'Sinh học' },
+            { id: 5, ten: 'Ngữ văn' },
+            { id: 6, ten: 'Lịch sử' },
+            { id: 7, ten: 'Địa lý' },
+            { id: 8, ten: 'Tiếng Anh' },
+            { id: 9, ten: 'Giáo dục công dân' },
+            { id: 10, ten: 'Công nghệ' },
+            { id: 11, ten: 'Tin học' },
+            { id: 12, ten: 'Giáo dục thể chất' },
+            { id: 13, ten: 'Nghệ thuật' },
+            { id: 14, ten: 'Âm nhạc' },
+            { id: 15, ten: 'Kỹ năng sống' },
+            { id: 16, ten: 'Tiếng Pháp' },
+            { id: 17, ten: 'Tiếng Đức' },
+            { id: 18, ten: 'Tiếng Nhật' },
+            { id: 19, ten: 'Tiếng Hàn' },
+            { id: 20, ten: 'Tiếng Trung' },
+        ];
+        const elements = [...subjects].map((item) => {
+            return {
+                title: item.ten,
+                subtitle: '',
+                image_url: '',
+                buttons: [
+                    {
+                        type: 'postback',
+                        title: item.ten,
+                        payload: item.id,
+                    },
+                ],
+            };
+        });
+        const response = {
+            attachment: {
+                type: 'template',
+                payload: {
+                    template_type: 'generic',
+                    elements: elements,
                 },
             },
         };
