@@ -244,27 +244,7 @@ export class ChatService {
                                 },
                                 {
                                     type: 'postback',
-                                    title: 'C',
-                                    payload: 'A',
-                                },
-                                {
-                                    type: 'postback',
-                                    title: 'D',
-                                    payload: 'A',
-                                },
-                                {
-                                    type: 'postback',
-                                    title: 'E',
-                                    payload: 'A',
-                                },
-                                {
-                                    type: 'postback',
-                                    title: 'F',
-                                    payload: 'A',
-                                },
-                                {
-                                    type: 'postback',
-                                    title: 'A',
+                                    title: 'B',
                                     payload: 'A',
                                 },
                             ],
