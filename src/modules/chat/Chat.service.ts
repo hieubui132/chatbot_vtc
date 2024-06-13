@@ -51,7 +51,7 @@ export class ChatService {
         }
 
         // Send the response message
-        this.callSendAPI(senderPsid, response);
+        // this.callSendAPI(senderPsid, response);
     }
 
     // Handles messaging_postbacks events
