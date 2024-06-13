@@ -206,50 +206,45 @@ export class ChatService {
             { id: 8, ten: 'Tiếng Anh' },
             { id: 9, ten: 'Giáo dục công dân' },
             { id: 10, ten: 'Công nghệ' },
+            { id: 11, ten: 'Tin học' },
+            { id: 12, ten: 'Giáo dục thể chất' },
+            { id: 13, ten: 'Nghệ thuật' },
+            { id: 14, ten: 'Âm nhạc' },
+            { id: 15, ten: 'Kỹ năng sống' },
+            { id: 16, ten: 'Tiếng Pháp' },
+            { id: 17, ten: 'Tiếng Đức' },
+            { id: 18, ten: 'Tiếng Nhật' },
+            { id: 19, ten: 'Tiếng Hàn' },
+            { id: 20, ten: 'Tiếng Trung' },
         ];
-        const elements = [...subjects].map((item) => {
-            return {
-                title: item.ten,
+
+        let elements = [];
+
+        for (let i = 0; i < subjects.length; i += 3) {
+            let item = {
+                title: 'Chọn môn học',
                 subtitle: '',
                 image_url: '',
-                buttons: [
-                    {
-                        type: 'postback',
-                        title: item.ten,
-                        payload: item.id,
-                    },
-                ],
+                buttons: [],
             };
-        });
+
+            for (let j = i; j < i + 3 && j < subjects.length; j++) {
+                item.buttons.push({
+                    type: 'postback',
+                    title: subjects[j].ten,
+                    payload: subjects[j].id,
+                });
+            }
+
+            elements.push(item);
+        }
+
         const response = {
             attachment: {
                 type: 'template',
                 payload: {
                     template_type: 'generic',
-                    elements: [
-                        {
-                            title: 'Chọn môn',
-                            subtitle: '',
-                            image_url: '',
-                            buttons: [
-                                {
-                                    type: 'postback',
-                                    title: 'A',
-                                    payload: 'A',
-                                },
-                                {
-                                    type: 'postback',
-                                    title: 'B',
-                                    payload: 'A',
-                                },
-                                {
-                                    type: 'postback',
-                                    title: 'B',
-                                    payload: 'A',
-                                },
-                            ],
-                        },
-                    ],
+                    elements: elements,
                 },
             },
         };
